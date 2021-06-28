@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { User, Session, Recipe, Review } from "./requests";
+import WelcomePage from './components/WelcomePage'
+import NavBar from "./components/Navbar";
+import RecipeIndexPage from './components/RecipeIndexPage'
+import RecipeShowPage from './components/RecipeShowPage'
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+  const [appState, setAppState] = useState({ user: null })
+  const getCurrentUser = () => {
+    return User.current().then(user => {
+      if (user?.id) { 
+        setAppState(state => {
+          return { user }
+        })
+      }
+    })
+  }
+  const destroySession = () => {
+    Session.destroy().then((res) => {
+      setAppState((state) => {
+        return { user: null };
+      });
+    });
+  }
+  const handleSubmit = (params) => {
+    Session.create(params)
+      .then(() => {
+        return Session.currentUser();
+      })
+      .then((user) => {
+        console.log("user", user);
+        setAppState((state) => {
+          return { user: user };
+        });
+      });
+  }
+  const onSignOut = () => {
+    setAppState({
+      user: null
+    })
+  }
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
+
+  return <div className="App">
+    <BrowserRouter>
+    <NavBar currentUser={appState.user} destroySession={destroySession}/>
+    <Switch>
+      <Route exact path="/recipes" component={RecipeIndexPage}/>
+      <Route exact path="/" component={WelcomePage}/>
+    </Switch>
+    </BrowserRouter>
+  </div>
 }
 
 export default App;
