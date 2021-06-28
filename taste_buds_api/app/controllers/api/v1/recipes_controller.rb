@@ -1,6 +1,6 @@
 class Api::V1::RecipesController < Api::ApplicationController
-  before_action :find_recipe, only: [:show, :destroy, :update]
-  before_action :authenticate_user!, only:[:create, :destroy, :update]
+  before_action :find_recipe, only: [:show, :destroy]
+  before_action :authenticate_user!, only:[:create, :destroy]
   
   def index
     recipes = Recipe.order created_at: :desc
