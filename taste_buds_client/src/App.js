@@ -5,6 +5,9 @@ import NavBar from "./components/Navbar";
 import RecipeIndexPage from './components/RecipeIndexPage'
 import RecipeShowPage from './components/RecipeShowPage'
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import SignInPage from "./components/SignInPage";
+import RecipeNewPage from "./components/RecipeNewPage";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
@@ -47,13 +50,18 @@ const App = () => {
   }, [])
 
   return <div className="App">
-    <BrowserRouter>
-    <NavBar currentUser={appState.user} destroySession={destroySession}/>
-    <Switch>
-      <Route exact path="/recipes" component={RecipeIndexPage}/>
-      <Route exact path="/" component={WelcomePage}/>
-    </Switch>
-    </BrowserRouter>
+    <div className="container">
+      <BrowserRouter>
+      <NavBar currentUser={appState.user} destroySession={destroySession}/>
+      <Switch>
+        <Route exact path="/recipes/new" component={RecipeNewPage} />
+        <Route exact path="/recipes/:id" component={RecipeShowPage} />
+        <Route exact path="/recipes" component={RecipeIndexPage}/>
+        <Route exact path="/" component={WelcomePage}/>
+        <Route exact path='/sign_in' render={(routeProps)=><SignInPage {...routeProps} onSignIn={getCurrentUser}/>} />
+      </Switch>
+      </BrowserRouter>
+    </div>
   </div>
 }
 
