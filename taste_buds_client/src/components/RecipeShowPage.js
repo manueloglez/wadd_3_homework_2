@@ -19,7 +19,7 @@ const RecipeShowPage = (props) => {
 
   return <>
     <RecipeDetails {...recipe} />
-    <ReviewsComponent reviews={recipe.reviews} createReview={createReview}/>
+    <ReviewsComponent reviews={recipe.reviews} createReview={createReview} recipeId={props.match.params.id}/>
   </>
 }
 

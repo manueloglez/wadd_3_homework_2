@@ -3,10 +3,10 @@ import ReviewDetails from './ReviewDetails'
 import ReviewForm from './ReviewForm'
 
 const ReviewsComponent = (props) => {
-  const {reviews, createReview} = props
+  const {reviews, createReview, recipeId} = props
 
   return <> 
-    <ReviewForm createReview={createReview} />
+    <ReviewForm createReview={createReview} recipeId={recipeId} />
     {reviews.map((review, id) => {
       return <ReviewDetails key={id} {...review}/>
     })

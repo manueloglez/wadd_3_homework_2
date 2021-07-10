@@ -4,17 +4,32 @@ import Form from 'react-bootstrap/Form'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
-const ReviewForm = () => {
-  const createReview = (params) => {
-    Review.create(params)
+const ReviewForm = (props) => {
+  const handleSubmit = event => {
+    const { currentTarget } = event
+    event.preventDefault()
+
+    const formData = new FormData(currentTarget)
+    const reviewData = {
+      body: formData.get('review'),
+      rating: formData.get('rating'),
+    }
+
+    console.log(reviewData)
+    
+    Review.create(props.recipeId, reviewData).then(res => {
+      console.log(res)
+      window.location.reload()
+    })
   }
+
   return <Card className="my-3" style={{width: '75vw'}}>
     <Card.Body>
     <Card.Title>Review your experience:</Card.Title>
-    <Form>
+    <Form onSubmit={handleSubmit}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
       <Form.Label>Rating</Form.Label>
-      <Form.Control as="select">
+      <Form.Control name="rating" id="rating" as="select">
       <option>1</option>
       <option>2</option>
       <option>3</option>
@@ -24,7 +39,7 @@ const ReviewForm = () => {
     </Form.Group>
     <Form.Group>
       <Form.Label>Review</Form.Label>
-      <Form.Control as="textarea" rows={3} />
+      <Form.Control name="review" id="review" as="textarea" rows={3} />
     </Form.Group>
     <Button variant="primary" type="submit">
       Submit
