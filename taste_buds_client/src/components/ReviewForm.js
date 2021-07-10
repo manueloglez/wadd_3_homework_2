@@ -29,7 +29,7 @@ const ReviewForm = (props) => {
     <Form onSubmit={handleSubmit}>
     <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
       <Form.Label>Rating</Form.Label>
-      <Form.Control name="rating" id="rating" as="select">
+      <Form.Control name="rating" as="select">
       <option>1</option>
       <option>2</option>
       <option>3</option>
@@ -39,7 +39,7 @@ const ReviewForm = (props) => {
     </Form.Group>
     <Form.Group>
       <Form.Label>Review</Form.Label>
-      <Form.Control name="review" id="review" as="textarea" rows={3} />
+      <Form.Control name="review" as="textarea" rows={3} />
     </Form.Group>
     <Button variant="primary" type="submit">
       Submit
