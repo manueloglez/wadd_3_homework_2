@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { User, Session, Recipe, Review } from "./requests";
 import WelcomePage from './components/WelcomePage'
+import AuthRoute from "./components/AuthRoute";
 import NavBar from "./components/Navbar";
 import RecipeIndexPage from './components/RecipeIndexPage'
 import RecipeShowPage from './components/RecipeShowPage'
@@ -54,7 +55,8 @@ const App = () => {
       <BrowserRouter>
       <NavBar currentUser={appState.user} destroySession={destroySession}/>
       <Switch>
-        <Route exact path="/recipes/new" component={RecipeNewPage} />
+        <AuthRoute exact path="/recipes/new" 
+          isAuth={appState.user} component={RecipeNewPage}/>
         <Route exact path="/recipes/:id" component={RecipeShowPage} />
         <Route exact path="/recipes" component={RecipeIndexPage}/>
         <Route exact path="/" component={WelcomePage}/>
